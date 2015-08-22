@@ -1,2 +1,2 @@
 # AlertMe
-A simple jQuery plugin to show alerts on the top of the viewport.
+A simple javascript plugin to show alerts at the top of the viewport.
