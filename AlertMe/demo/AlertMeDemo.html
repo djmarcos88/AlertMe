@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Alert Me - Demo</title>
+    <script src="/js/jquery-2.1.4.min.js"></script>
+    <script src="/js/AlertMe.js"></script>
+
+    <link href="styles/AlertMeDemo.min.css" rel="stylesheet" />
+
+    <script>
+        (function ($) {
+            $(function () {
+                $('#demoButton').click(function (e) {
+                    e.preventDefault();
+
+                    AlertMe.write({
+                        message: 'This is working!'
+                    });
+                });
+            });
+        })(jQuery);
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Alert Me</h1>
+        <h3>A simple jQuery plugin to show alerts on the top of the viewport.</h3>
+    </header>
+
+    <div class="container">
+        <a id="demoButton" href="#">Press Me</a>
+    </div>
+
+    <footer>
+        <div class="with-love">
+            Made with <span class="heart">&hearts;</span> by <a href="https://github.com/djmarcos88">Marcos Djivelekian</a>
+        </div>
+    </footer>
+</body>
+</html>
