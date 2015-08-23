@@ -6,7 +6,7 @@
 *
 * options:
 *			message:			the message that will be shown.
-*			duration:			duration of the message in milliseconds. 0 for infinite.
+*			duration:			duration of the message in milliseconds. null for infinite.
 *			animationSpeed:		animation speed for the message's slide effect.
 *			cssWrappingClass:	the CSS class for the wrapping div.
 *
@@ -19,11 +19,12 @@
 	var alertMeTimeout = null,
 	alertQueue = [],
 	queueRunning = false,
+	containerId = 'alertMeContainer';
 	defaults = {
 		message: '',
 		duration: 1000,
 		animationSpeed: 500,
-		cssWrappingClass: 'alert-me-container'
+		cssWrappingClass: 'alert-me'
 	};
 
 	AlertMe.write = function (options) {
@@ -38,13 +39,21 @@
 	};
 
 	// Closes the message and clears the timeout, can be used everywhere.
-	AlertMe.close = function (animationSpeed) {
-		$('#alertMe').slideUp(animationSpeed, function () {
+	AlertMe.close = function () {
+		$('#alertMe').addClass('closed');
+		setTimeout(function () {
 			$('#alertMe').remove();
 			clearAlertTimeout();
 			runQueue();
-		});
+		}, this.options.animationSpeed);
 	};
+
+	// Creates the container element for AlertMe.
+	init = function () {
+		$(function () {
+			$('body').append('<div id="' + containerId + '"></div>');
+		});
+	}
 
 	// Used internally. Standard function to implement delegates.
 	wrapFunction = function (fn, context) {
@@ -73,17 +82,19 @@
 				clearAlertTimeout();
 			}
 
-			$('body').append('<div id="alertMe" class="'
+			$('#' + containerId).append('<div id="alertMe" class="closed '
 				+ that.options.cssWrappingClass
 				+ '"> <span id="alertMe-message">'
 				+ that.options.message
 				+ '</span>  <a id="alertMe-close-anchor" onclick="AlertMe.close()">x</a></div>');
 
-			$('#alertMe').slideDown(that.options.animationSpeed);
+			setTimeout(function () {
+				$('#alertMe').removeClass('closed');
+			});
 
-			if (that.options.duration !== 0) {
+			if (that.options.duration !== null) {
 				alertMeTimeout = setTimeout(function () {
-					AlertMe.close(that.options.animationSpeed);
+					AlertMe.close();
 				}, that.options.duration);
 			}
 		};
@@ -101,5 +112,6 @@
 		}
 	};
 
+	init();
 	return AlertMe;
 })(this.AlertMe = this.AlertMe || {}, jQuery, window, document);

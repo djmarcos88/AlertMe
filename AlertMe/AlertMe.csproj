@@ -64,12 +64,22 @@
     <Content Include="demo\styles\AlertMeDemo.min.css">
       <DependentUpon>AlertMeDemo.css</DependentUpon>
     </Content>
+    <Content Include="demo\styles\normalize.css" />
+    <Content Include="demo\styles\normalize.min.css">
+      <DependentUpon>normalize.css</DependentUpon>
+    </Content>
     <Content Include="js\AlertMe.js" />
     <Content Include="js\AlertMe.min.js">
       <DependentUpon>AlertMe.js</DependentUpon>
     </Content>
     <Content Include="packages.config" />
     <Content Include="js\jquery-2.1.4.min.js" />
+    <Content Include="themes\default.css">
+      <DependentUpon>default.scss</DependentUpon>
+    </Content>
+    <Content Include="themes\default.min.css">
+      <DependentUpon>default.css</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +92,10 @@
     <Content Include="demo\styles\AlertMeDemo.scss" />
     <Content Include="demo\styles\AlertMeDemo.css.map">
       <DependentUpon>AlertMeDemo.css</DependentUpon>
+    </Content>
+    <Content Include="themes\default.scss" />
+    <Content Include="themes\default.css.map">
+      <DependentUpon>default.css</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

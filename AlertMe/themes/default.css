@@ -1,0 +1,37 @@
+﻿#alertMeContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  height: 0; }
+  #alertMeContainer .alert-me {
+    display: inline-block;
+    text-align: left;
+    background: #dcdcdc;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #7d7d7d;
+    border-top: none;
+    overflow-y: hidden;
+    height: 20px;
+    position: relative;
+    top: 0;
+    padding: 10px;
+    -moz-transition-property: top;
+    -o-transition-property: top;
+    -webkit-transition-property: top;
+    transition-property: top;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+    -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1); }
+    #alertMeContainer .alert-me.closed {
+      top: -41px; }
+    #alertMeContainer .alert-me #alertMe-close-anchor {
+      cursor: pointer; }
+
+/*# sourceMappingURL=default.css.map */

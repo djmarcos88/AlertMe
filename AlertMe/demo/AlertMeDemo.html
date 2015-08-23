@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Alert Me - Demo</title>
+    <title>Alert Me</title>
     <script src="/js/jquery-2.1.4.min.js"></script>
     <script src="/js/AlertMe.js"></script>
 
+    <link href="styles/normalize.css" rel="stylesheet" />
+    <link href="../themes/default.min.css" rel="stylesheet" />
     <link href="styles/AlertMeDemo.min.css" rel="stylesheet" />
 
     <script>
@@ -14,7 +16,8 @@
                     e.preventDefault();
 
                     AlertMe.write({
-                        message: 'This is working!'
+                        message: 'Cerezita',
+                        duration: null
                     });
                 });
             });
@@ -24,7 +27,7 @@
 <body>
     <header>
         <h1>Alert Me</h1>
-        <h3>A simple jQuery plugin to show alerts on the top of the viewport.</h3>
+        <h3>A simple javascript plugin to show alerts at the top of the viewport.</h3>
     </header>
 
     <div class="container">

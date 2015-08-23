@@ -3,17 +3,25 @@
     margin: 0 auto;
 }
 
-.with-love {
-    color: #333;
-    display: inline-block;
+.container {
+    min-height: 600px;
+}
 
-    .heart {
-        font-size: 1.4em;
-        color: #d82546;
-    }
+footer {
+    text-align: center;
 
-    a {
-        text-decoration: none;
-        border-bottom: 1px dotted;
+    .with-love {
+        color: #333;
+        display: inline-block;
+
+        .heart {
+            font-size: 1.4em;
+            color: #d82525;
+        }
+
+        a {
+            text-decoration: none;
+            border-bottom: 1px dotted;
+        }
     }
 }
