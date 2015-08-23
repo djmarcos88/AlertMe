@@ -10,12 +10,10 @@
 *			animationSpeed:		animation speed for the message's slide effect.
 *			cssWrappingClass:	the CSS class for the wrapping div.
 *
-* dependencies: jquery-1.7.2 or newer.
-*
 * Date: 22/08/2015
 */
 
-; (function (AlertMe, $, window, document, undefined) {
+; (function (AlertMe, window, document, undefined) {
 	var alertMeTimeout = null,
 	alertQueue = [],
 	queueRunning = false,
@@ -28,7 +26,7 @@
 	};
 
 	AlertMe.write = function (options) {
-		this.options = $.extend({}, defaults, options);
+		this.options = extend({}, defaults, options);
 
 		var messagefn = createMessage();
 
@@ -40,18 +38,25 @@
 
 	// Closes the message and clears the timeout, can be used everywhere.
 	AlertMe.close = function () {
-		$('#alertMe').addClass('closed');
+		var alertMe = document.getElementById('alertMe');
+		alertMe.className = alertMe.className += ' closed';
+
 		setTimeout(function () {
-			$('#alertMe').remove();
+			alertMe.parentElement.removeChild(alertMe);
+
 			clearAlertTimeout();
 			runQueue();
 		}, this.options.animationSpeed);
 	};
 
 	// Creates the container element for AlertMe.
-	init = function () {
-		$(function () {
-			$('body').append('<div id="' + containerId + '"></div>');
+	function init() {
+		domReady(function () {
+			var container = document.createElement('div');
+			container.id = containerId;
+
+			var body = document.getElementsByTagName('body');
+			body[0].appendChild(container);
 		});
 	}
 
@@ -63,18 +68,20 @@
 	};
 
 	// Clears the alerts timeout.
-	clearAlertTimeout = function () {
+	function clearAlertTimeout() {
 		clearTimeout(alertMeTimeout);
 		alertMeTimeout = null;
 	};
 
 	// Returns a closure function that inserts an alert message into the DOM.
-	createMessage = function () {
+	function createMessage() {
 		return function () {
 			var that = this;
+			var alertMe = document.getElementById('alertMe');
+
 			// This prevents the creation of duplicated alertMe divs.
-			if ($('#alertMe').length) {
-				$('#alertMe').remove();
+			if (alertMe !== null) {
+				alertMe.parentElement.removeChild(alertMe);
 			}
 
 			// This clears the timeout if it's still running, preventing the message from closing before the given duration.
@@ -82,26 +89,50 @@
 				clearAlertTimeout();
 			}
 
-			$('#' + containerId).append('<div id="alertMe" class="closed '
-				+ that.options.cssWrappingClass
-				+ '"> <span id="alertMe-message">'
-				+ that.options.message
-				+ '</span>  <a id="alertMe-close-anchor" onclick="AlertMe.close()">x</a></div>');
-
+			alertMe = appendMessageElement(that);
 			setTimeout(function () {
-				$('#alertMe').removeClass('closed');
-			});
+				alertMe.className = alertMe.className.replace('closed', '');
+			}, 20);
 
 			if (that.options.duration !== null) {
 				alertMeTimeout = setTimeout(function () {
-					AlertMe.close();
+					AlertMe.close.apply(that);
 				}, that.options.duration);
 			}
 		};
 	};
 
+	// Creates the message elements and appends them to the alertMe container.
+	function appendMessageElement(that) {
+		var span = document.createElement('span');
+		span.id = 'alertMeMessage';
+		span.innerHTML = that.options.message;
+
+		var anchor = document.createElement('a');
+		anchor.id = 'alertMeClose';
+		anchor.onclick = wrapFunction(AlertMe.close, that);
+		anchor.innerHTML = 'x';
+
+		var div = document.createElement('div');
+		div.id = 'alertMe';
+		div.className = 'closed ' + that.options.cssWrappingClass;
+
+		div.appendChild(span);
+		div.appendChild(anchor);
+
+		var alertMeContainer = document.getElementById(containerId);
+
+		// Validates that the alertMeContainer is still on the DOM.
+		if (alertMeContainer !== null) {
+			return alertMeContainer.appendChild(div);
+		}
+		else {
+			console.error('AlertMe container was removed.');
+		}
+	}
+
 	// Runs the alerts queue.
-	runQueue = function () {
+	function runQueue() {
 		queueRunning = true;
 
 		if (alertQueue.length) {
@@ -112,6 +143,34 @@
 		}
 	};
 
+	function domReady(fn) {
+		if (typeof fn !== 'function') return;
+
+		if (document.readyState === 'complete') {
+			return fn();
+		}
+
+		document.addEventListener('DOMContentLoaded', fn, false);
+	};
+
+	function extend(objects) {
+		var extended = {};
+		var merge = function (obj) {
+			for (var prop in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+					extended[prop] = obj[prop];
+				}
+			}
+		};
+		merge(arguments[0]);
+
+		for (var i = 1; i < arguments.length; i++) {
+			var obj = arguments[i];
+			merge(obj);
+		}
+		return extended;
+	};
+
 	init();
 	return AlertMe;
-})(this.AlertMe = this.AlertMe || {}, jQuery, window, document);
+})(this.AlertMe = this.AlertMe || {}, window, document);
